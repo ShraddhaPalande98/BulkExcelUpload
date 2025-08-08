@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Upload Excel File";
+}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form asp-action="Upload" method="post" enctype="multipart/form-data" id="uploadForm">
+                        <div class="form-group">
+                            <label for="file">Select Excel File</label>
+                            <input type="file" name="file" id="file" class="form-control" />
+                            <div id="fileError" class="text-danger mt-2" style="display: none;">Please select a valid Excel file (.xlsx, .xls).</div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("uploadForm").addEventListener("submit", function (e) {
+        var fileInput = document.getElementById("file");
+        var file = fileInput.files[0];
+
+        document.getElementById("fileError").style.display = "none";
+
+        if (!file) {
+            document.getElementById("fileError").textContent = "No file selected. Please choose a file.";
+            document.getElementById("fileError").style.display = "block";
+            e.preventDefault();
+            return false;
+        }
+
+        var fileExtension = file.name.split('.').pop().toLowerCase();
+        var allowedExtensions = ["xlsx", "xls"];
+
+        if (!allowedExtensions.includes(fileExtension)) {
+            document.getElementById("fileError").textContent = "Please select a valid Excel file (.xlsx, .xls).";
+            document.getElementById("fileError").style.display = "block";
+            e.preventDefault();
+            return false;
+        }
+
+        if (file.size > 10 * 1024 * 1024) { 
+            document.getElementById("fileError").textContent = "The file size exceeds the maximum allowed size of 10MB.";
+            document.getElementById("fileError").style.display = "block";
+            e.preventDefault();
+            return false;
+        }
+    });
+</script>
