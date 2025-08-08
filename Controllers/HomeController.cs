@@ -58,7 +58,7 @@ namespace ExcelBulkUploadApp.Controllers
                         var worksheet = package.Workbook.Worksheets[0];
                         var rowCount = worksheet.Dimension.Rows;
 
-                        for (int row = 2; row <= rowCount; row++)
+                        for (int row = 3; row <= rowCount; row++)
                         {
                             var product = new Product
                             {
